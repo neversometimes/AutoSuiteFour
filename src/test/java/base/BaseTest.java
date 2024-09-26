@@ -47,9 +47,10 @@ public class BaseTest {
         driver.quit();
     }
 
+
+
     public void goToURL(String url) {
         driver.get(url);
     }
-
 
 }
