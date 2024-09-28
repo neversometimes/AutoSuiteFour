@@ -1,29 +1,25 @@
 package tests;
 
 import base.BaseTest;
+import pages.BrowserAgnosticPage;
+
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.Color;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.annotations.Test;
-import pages.BrowserAgnosticPage;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.Duration;
-import java.util.List;
 import java.util.Set;
 
-import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+import org.testng.annotations.Test;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
-import static org.testng.AssertJUnit.*;
-import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.Assert.*;
+
 
 public class BrowserAgnosticTest extends BaseTest {
 
@@ -42,7 +38,9 @@ public class BrowserAgnosticTest extends BaseTest {
     String cookiesPage = "https://bonigarcia.dev/selenium-webdriver-java/cookies.html";
     String cookieName = "new-cookie-key";
     String cookieValue = "new-cookie-value";
-
+    String iframesPage = "https://bonigarcia.dev/selenium-webdriver-java/iframes.html";
+    String framesPage = "https://bonigarcia.dev/selenium-webdriver-java/frames.html";
+    String dlgBxPage = "https://bonigarcia.dev/selenium-webdriver-java/dialog-boxes.html";
 
     @Test
     public void scrollByPixels() {
@@ -344,32 +342,27 @@ public class BrowserAgnosticTest extends BaseTest {
         assertEquals(optionLabel, browserAgnosticPage.getFirstDropDownItemTxt(select));
     }
     @Test
-    public void testDataList() {
+    public void dataList() {
+        // DataList dropdown: San Francisco, New York, Seattle, Los Angeles, Chicago
         BrowserAgnosticPage browserAgnosticPage = new BrowserAgnosticPage(driver);
         goToURL(webFormPage);
 
-        WebElement dataList = driver.findElement(By.name("my-datalist")); //find datalist web element
-        dataList.click();  // mouse click datalist to set focus in web element control
+        browserAgnosticPage.clickDataListDropDown();  // click the datalist dropdown
 
-        WebElement option = driver
-                .findElement(By.xpath("//datalist/option[2]")); // find 2nd option in list
-        String optionValue = option.getAttribute("value"); // get 2nd option value ("New York")
-        dataList.sendKeys(optionValue);  // enter "New York" to select that option of dropdown
+        browserAgnosticPage.selectDataListOptionValue();   // select the 4th item in the list
 
-        assertEquals(optionValue, "New York");  // verify text selected and typed is "New York"
-
+        // verify displayed value of datalist dropdown is the selected 4th option "Los Angeles"
+        assertEquals("Los Angeles", browserAgnosticPage.getDisplayedValue());
     }
     @Test
-    public void testOpenNewTab() {
-        BrowserAgnosticPage browserAgnosticPage = new BrowserAgnosticPage(driver);
+    public void openNewTab() {
+        goToURL(initPage);
 
-        String initURL = "https://bonigarcia.dev/selenium-webdriver-java/";
-        driver.get(initURL);
         String initHandle = driver.getWindowHandle();  // get window handle
 
         driver.switchTo().newWindow(WindowType.TAB);  // open new TAB
-        String nextURL = "https://bonigarcia.dev/selenium-webdriver-java/web-form.html";
-        driver.get(nextURL);  // open new page in TAB
+
+        goToURL(webFormPage);
         assertEquals(driver.getWindowHandles().size(), 2); // 2 window handles currently
 
         String nextHandle = driver.getWindowHandle(); // grab handle of new TAB window
@@ -379,19 +372,16 @@ public class BrowserAgnosticTest extends BaseTest {
         assertEquals(driver.getWindowHandles().size(), 1);  // verify window handle count == 1
 
         driver.switchTo().window(nextHandle);   // switch driver to TAB window via handle
-        assertEquals(driver.getCurrentUrl(), nextURL); // verify current URL == TAB window URL
+        assertEquals(driver.getCurrentUrl(), webFormPage); // verify current URL == TAB window URL
     }
     @Test
-    public void testOpenNewWindow() {
-        BrowserAgnosticPage browserAgnosticPage = new BrowserAgnosticPage(driver);
+    public void openNewWindow() {
+        goToURL(initPage);
 
-        String initURL = "https://bonigarcia.dev/selenium-webdriver-java/";
-        driver.get(initURL);
         String initHandle = driver.getWindowHandle();  // get window handle
 
         driver.switchTo().newWindow(WindowType.WINDOW);  // open new WINDOW
-        String nextURL = "https://bonigarcia.dev/selenium-webdriver-java/web-form.html";
-        driver.get(nextURL);  // open new page in NEW WINDOW
+        goToURL(webFormPage);
         assertEquals(driver.getWindowHandles().size(), 2); // 2 window handles currently
 
         String nextHandle = driver.getWindowHandle(); // grab handle of new WINDOW
@@ -401,130 +391,108 @@ public class BrowserAgnosticTest extends BaseTest {
         assertEquals(driver.getWindowHandles().size(), 1);  // verify window handle count == 1
 
         driver.switchTo().window(nextHandle);   // switch driver to NEW WINDOW via handle
-        assertEquals(driver.getCurrentUrl(), nextURL); // verify current URL == NEW WINDOW URL
+        assertEquals(driver.getCurrentUrl(), webFormPage); // verify current URL == NEW WINDOW URL
     }
     @Test
-    public void testiFrames() {
+    public void iFramesParagraphCount() {
         BrowserAgnosticPage browserAgnosticPage = new BrowserAgnosticPage(driver);
+        goToURL(iframesPage);
 
-        driver.get("https://bonigarcia.dev/selenium-webdriver-java/iframes.html");
-
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));  // wait 10s for iFrame to load
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));  // explicit wait 5s for iFrame to load
         wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt("my-iframe"));
 
-        By pName = By.tagName("p");
-        wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(pName, 0)); // waiting for paragraphs
-        List<WebElement> paragraphs = driver.findElements(pName); // find all paragraphs in iFrame
-        assertEquals(paragraphs.size(), 20); // verify 20 paragraphs found in iFrame
+        assertEquals(20, browserAgnosticPage.getParagraphSize()); // verify 20 paragraphs found in iFrame
     }
     @Test
-    public void testFrames() {
+    public void framesParagraphCount() {
         BrowserAgnosticPage browserAgnosticPage = new BrowserAgnosticPage(driver);
+        goToURL(framesPage);
+        // wait 5s for the frame to load
+        browserAgnosticPage.waitForFrame();
 
-        driver.get("https://bonigarcia.dev/selenium-webdriver-java/frames.html");
+        // switch to frame body element
+        driver.switchTo().frame("frame-body");
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));  // wait 10s max
-        String frameName = "frame-body";
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.name(frameName))); // wait until found & loaded
-
-        driver.switchTo().frame(frameName);  // switch to frame body element
-
-        By pName = By.tagName("p");
-        wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(pName, 0)); // wait to load paragraphs
-        List<WebElement> paragraphs = driver.findElements(pName);  // find all paragraphs in FRAME
-        assertEquals(paragraphs.size(), 20);  // verify 20 paragraphs found in FRAME
+        // verify 20 paragraphs found in FRAME
+        assertEquals(20, browserAgnosticPage.getParagraphSize());
     }
     @Test
-    public void testAlerts() {
+    public void simpleAlert() {
         BrowserAgnosticPage browserAgnosticPage = new BrowserAgnosticPage(driver);
+        goToURL(dlgBxPage);
 
-        driver.get("https://bonigarcia.dev/selenium-webdriver-java/dialog-boxes.html");
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        browserAgnosticPage.clickAlertBtn();                // click alert btn on page
+        Alert alert = driver.switchTo().alert();           // put focus on alert UI
 
-        driver.findElement(By.id("my-alert")).click();   // click alert button web element
-        wait.until(ExpectedConditions.alertIsPresent()); // wait for alert to appear
-        Alert alert = driver.switchTo().alert();         // put focus on alert UI
-
-        assertEquals(alert.getText(), "Hello world!"); // verify alert UI text
+        assertEquals("Hello world!", alert.getText());   // verify alert UI text
 
         alert.accept();   // click OK on alert to dismiss
     }
     @Test
-    public void testConfirms() {
+    public void confirmAlert() {
         BrowserAgnosticPage browserAgnosticPage = new BrowserAgnosticPage(driver);
+        goToURL(dlgBxPage);
 
-        driver.get("https://bonigarcia.dev/selenium-webdriver-java/dialog-boxes.html");
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-
-        driver.findElement(By.id("my-confirm")).click();  // click confirm web element
-        wait.until(ExpectedConditions.alertIsPresent());  // wait for confirm to appear
+        browserAgnosticPage.clickConfirmBtn();
         Alert confirm = driver.switchTo().alert();        // set focus on confirm UI
-
-        assertEquals(confirm.getText(), "Is this correct?"); // verify confirm UI text
+        assertEquals("Is this correct?", confirm.getText()); // verify confirm UI text
 
         confirm.dismiss();  //click Cancel
-        // cancel displays "You chose: false" text below web element on page
-        // TO DO:  add assert to verify?
+        assertEquals("You chose: false", browserAgnosticPage.getConfirmTxt());
+
+        browserAgnosticPage.clickConfirmBtn();
+        confirm = driver.switchTo().alert();    // set focus on confirm UI
+        assertEquals("Is this correct?", confirm.getText()); // verify confirm UI text
+
+        confirm.accept();
+        assertEquals("You chose: true", browserAgnosticPage.getConfirmTxt());
+
     }
     @Test
-    public void testPrompts() {
+    public void promptAlert() {
         BrowserAgnosticPage browserAgnosticPage = new BrowserAgnosticPage(driver);
+        goToURL(dlgBxPage);
 
-        driver.get("https://bonigarcia.dev/selenium-webdriver-java/dialog-boxes.html");
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-
-        driver.findElement(By.id("my-prompt")).click();  // click prompt web element
-        wait.until(ExpectedConditions.alertIsPresent()); // wait for prompt to appear
+        browserAgnosticPage.clickPromptBtn();
         Alert prompt = driver.switchTo().alert();        // set focus on prompt UI
+        assertEquals("Please enter your name", prompt.getText()); // verify prompt UI text
 
-        assertEquals(prompt.getText(), "Please enter your name"); // verify prompt UI text
+        prompt.dismiss();   // cancel prompt
+        assertEquals("You typed: null", browserAgnosticPage.getPromptTxt());
 
-        prompt.sendKeys("John Doe"); // text input on prompt
-        prompt.accept();
+        browserAgnosticPage.clickPromptBtn();
+        prompt = driver.switchTo().alert();
+        assertEquals("Please enter your name", prompt.getText()); // verify prompt UI text
 
-        // OK on prompt sets text below web element on the page = "You typed: John Doe"
-        // cancel on prompt sets text below web element on the page = "You typed: null"
-        // add assert to verify?
+        prompt.sendKeys("Isaac Newton"); // text input on prompt
+        prompt.accept();        // ok prompt
+        assertEquals("You typed: Isaac Newton", browserAgnosticPage.getPromptTxt());
+
     }
     @Test
-    public void testModals() {
+    public void modalAlert() {
         BrowserAgnosticPage browserAgnosticPage = new BrowserAgnosticPage(driver);
+        goToURL(dlgBxPage);
 
-        driver.get("https://bonigarcia.dev/selenium-webdriver-java/dialog-boxes.html");
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        browserAgnosticPage.clickModalLaunchBtn();
+        // verify text on modal dlg
+        assertEquals("Modal title", browserAgnosticPage.getModalTitleTxt());
+        assertEquals("This is the modal body", browserAgnosticPage.getModalBodyTxt());
 
-        driver.findElement(By.id("my-modal")).click(); // click modal web element
-        WebElement close = driver
-                .findElement(By.xpath("//button[text() = 'Close']")); // find modal Close button
+        // click close btn
+        browserAgnosticPage.clickModalCloseBtn();
 
-        assertEquals(close.getTagName(), "button"); // verify tag name on Close button
+        browserAgnosticPage.clickModalLaunchBtn();
+        // verify text on modal dlg
+        assertEquals("Modal title", browserAgnosticPage.getModalTitleTxt());
+        assertEquals("This is the modal body", browserAgnosticPage.getModalBodyTxt());
 
-        wait.until(ExpectedConditions.elementToBeClickable(close));  // wait for modal to be clicked
-        close.click();  // click modal close button
-        // verify other text on modal
-        // verify text below modal web element that is returned from modal alert action
+        // click Save changes btn
+        browserAgnosticPage.clickModalSaveChangesBtn();
+
+        // verify result text
+        assertEquals("You chose: Save changes", browserAgnosticPage.getModalPageTxt());
+
     }
-/*    @Test
-    public void testWebStorage() {
-
-        // WebStorage and SessionStorage objects are deprecated
-        // TO DO : rewrite using updated object references
-
-        driver.get("https://bonigarcia.dev/selenium-webdriver-java/web-storage.html");
-        WebStorage webStorage = (WebStorage) driver;
-
-        SessionStorage sessionStorage = webStorage.getSessionStorage();
-
-        assertEquals(sessionStorage.size(), 2);
-
-        sessionStorage.setItem("new element", "new value");
-        assertEquals(sessionStorage.size(), 3);
-
-        driver.findElement(By.id("display-session")).click();
-    }
-*/
-
-
-
 
 }
