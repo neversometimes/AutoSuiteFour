@@ -3,9 +3,6 @@ package tests;
 import base.BaseTest;
 import pages.BasicAuthPage;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 
