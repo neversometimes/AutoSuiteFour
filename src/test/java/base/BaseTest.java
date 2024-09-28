@@ -37,7 +37,7 @@ public class BaseTest {
             driver = new EdgeDriver();
         }
         driver.manage().window().setSize(new Dimension(1440, 900));
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));  // basic implicit wait
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));  // basic 5s implicit wait
 
         return driver;
     }
