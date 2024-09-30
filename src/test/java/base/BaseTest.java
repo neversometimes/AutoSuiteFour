@@ -30,7 +30,7 @@ public class BaseTest {
     public WebDriver setUp() {
 
         // get target browser from CLI if given, otherwise use "chrome"
-        String browserName = System.getProperty("browser") != null ? System.getProperty("browser") : "edge";
+        String browserName = System.getProperty("browser") != null ? System.getProperty("browser") : "chrome";
 
         if (browserName.contains("chrome")) {
             ChromeOptions options = new ChromeOptions();
