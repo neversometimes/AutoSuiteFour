@@ -28,7 +28,6 @@ public class BrowserAgnosticTest extends BaseTest {
     String infiniteScrollPage = "https://bonigarcia.dev/selenium-webdriver-java/infinite-scroll.html";
     String webFormPage = "https://bonigarcia.dev/selenium-webdriver-java/web-form.html";
     String colorAttrScript = "arguments[0].setAttribute('value', '%s');";
-    String initPage = "https://bonigarcia.dev/selenium-webdriver-java/";
     String timedotgovPage = "https://www.time.gov/";
     OutputType<File> pngFile = OutputType.FILE;
     OutputType<String> base64File = OutputType.BASE64;
@@ -470,7 +469,7 @@ public class BrowserAgnosticTest extends BaseTest {
 
     }
     @Test
-    public void modalAlert() {
+    public void modalAlert() throws Exception{
         BrowserAgnosticPage browserAgnosticPage = new BrowserAgnosticPage(driver);
         goToURL(dlgBxPage);
 
@@ -478,6 +477,7 @@ public class BrowserAgnosticTest extends BaseTest {
         // verify text on modal dlg
         assertEquals("Modal title", browserAgnosticPage.getModalTitleTxt());
         assertEquals("This is the modal body", browserAgnosticPage.getModalBodyTxt());
+
 
         // click close btn
         browserAgnosticPage.clickModalCloseBtn();

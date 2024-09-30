@@ -74,9 +74,9 @@ public class BrowserAgnosticPage {
     WebElement promptTxt;
     @FindBy(id = "my-modal")
     WebElement modalLaunchBtn;
-    @FindBy(css = "button[class$='btn btn-secondary model-button']")
+    @FindBy(xpath = "//button[text() = 'Close']")
     WebElement modalCloseBtn;
-    @FindBy(css = "button[class$='btn btn-primary model-button']")
+    @FindBy(css = "div button[class$='btn btn-primary model-button']")
     WebElement modalSaveChangesBtn;
     @FindBy(css = "p[id='modal-text']")
     WebElement modalPageTxt;
@@ -207,12 +207,17 @@ public class BrowserAgnosticPage {
         return promptTxt.getText();
     }
     public void clickModalLaunchBtn() {
+        wait.until(ExpectedConditions.elementToBeClickable(modalLaunchBtn));
         modalLaunchBtn.click();
-        wait.until(ExpectedConditions.visibilityOf(modalCloseBtn));
+        wait.until(ExpectedConditions.elementToBeClickable(modalCloseBtn));
     }
-    public void clickModalCloseBtn() {
+    public void clickModalCloseBtn() throws Exception{
+        wait.until(ExpectedConditions.elementToBeClickable (modalCloseBtn));
+        Thread.sleep(3000);     // added for FF
         modalCloseBtn.click();
-        wait.until(ExpectedConditions.invisibilityOf(modalCloseBtn));
+        Thread.sleep(3000);     // added for FF
+        wait.until(ExpectedConditions.elementToBeClickable(modalLaunchBtn));
+
     }
     public void clickModalSaveChangesBtn() {
         modalSaveChangesBtn.click();
