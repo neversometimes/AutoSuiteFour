@@ -15,6 +15,7 @@ public class GetUserMediaTest extends BaseTest {
         goToURL(userMediaPage);
 
         getUserMediaPage.clickStartBtn();
+        getUserMediaPage.enableVideo();
 
         assertNotEquals(getUserMediaPage.getVideoTxt(), null);
         Thread.sleep(1000);  // 1s pause just for the video beep
