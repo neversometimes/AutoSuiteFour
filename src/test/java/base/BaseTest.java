@@ -16,7 +16,12 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.asserts.SoftAssert;
 
+import java.net.URISyntaxException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.Duration;
+import java.util.HashMap;
+import java.util.Map;
 
 public class BaseTest {
 
@@ -24,13 +29,19 @@ public class BaseTest {
     public DevTools devTools;
     SoftAssert sa = new SoftAssert();
     public String initPage = "https://bonigarcia.dev/selenium-webdriver-java/";
+    public String lang = "es-ES";
 
 
     @BeforeMethod
-    public WebDriver setUp() {
+    public WebDriver setUp() throws URISyntaxException {
+        // path to web extension which sets background color of web pages to black
+        Path extension = Paths.get(ClassLoader.getSystemResource("dark-bg.crx").toURI());
 
         // get target browser from CLI if given, otherwise use "chrome"
         String browserName = System.getProperty("browser") != null ? System.getProperty("browser") : "chrome";
+        // set lang prefs for chrome/edge
+        Map<String, Object> prefs = new HashMap<>();
+        prefs.put("intl.accept_languages", lang);
 
         if (browserName.contains("chrome")) {
             ChromeOptions options = new ChromeOptions();
@@ -39,6 +50,9 @@ public class BaseTest {
             }
             options.addArguments("--use-fake-ui-for-media-stream");     // used for getUserMediaTest
             options.addArguments("--use-fake-device-for-media-stream");
+            options.setAcceptInsecureCerts(true);
+            options.setExperimentalOption("prefs", prefs);
+            options.addExtensions(extension.toFile()); // add web extension
 
             driver = new ChromeDriver(options);
 
@@ -49,7 +63,7 @@ public class BaseTest {
             if (browserName.contains("headless")){      // if headless param given on CLI
                 options.addArguments ("-headless");      // then run test in headless mode
             }
-
+            options.addPreference("intl.accept_languages", lang); //pref for lang
             driver = new FirefoxDriver(options);
 
         } else if (browserName.contains("edge")) {
@@ -59,6 +73,9 @@ public class BaseTest {
             }
             options.addArguments("--use-fake-ui-for-media-stream");     // used for GetUserMediaTest
             options.addArguments("--use-fake-device-for-media-stream");
+            options.setAcceptInsecureCerts(true);
+            options.setExperimentalOption("prefs", prefs);
+            options.addExtensions(extension.toFile()); // add web extension
 
             driver = new EdgeDriver(options);
         }
@@ -77,6 +94,10 @@ public class BaseTest {
 
     public void goToURL(String url) {
         driver.get(url);
+    }
+
+    public String getPageURL () {
+        return driver.getCurrentUrl();
     }
 
     public String getBrowserName () {
