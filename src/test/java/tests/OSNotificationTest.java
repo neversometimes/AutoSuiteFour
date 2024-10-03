@@ -14,13 +14,13 @@ public class OSNotificationTest extends BaseTest {
         OSNotificationPage osNotify = new OSNotificationPage(driver);
         goToURL(notifyPage);
 
-        // This JS returns a String from the notification
+        // This JS script returns a String from the notification alert
         String script = String.join("\n",
                 "const callback = arguments[arguments.length - 1];",  // callback function to end the script
                 "const OldNotify = window.Notification;",               // store a copy of the original constructor
                 "function newNotification(title, options) {",          // create new constructor for notifications
                 "     callback(title);" ,                              // pass msg title as arg in callback
-                "     return new OldNotify(title, options);",          // use old constructor to create original notificaton object
+                "     return new OldNotify(title, options);",          // use old constructor to create orig. notify object
                 "}",
                 "newNotification.requestPermission = " +
                         "OldNotify.requestPermission.bind(OldNotify);" ,
