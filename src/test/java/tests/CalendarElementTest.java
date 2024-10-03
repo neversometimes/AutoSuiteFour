@@ -10,7 +10,7 @@ public class CalendarElementTest extends BaseTest{
     String offersPage = "https://rahulshettyacademy.com/seleniumPractise/#/offers";
 
     @Test
-    public void testCalendarElement() {
+    public void calendarElement() {
         // Exercise: set a date using a web calendar element
         //  Task: set date to: 15 June 2027
         //  assert date set is correct after using calendar element
@@ -18,8 +18,6 @@ public class CalendarElementTest extends BaseTest{
         CalendarElementPage calendarElementPage = new CalendarElementPage(driver);
 
         String day = "15";
-        String month = "June";
-        String year = "2027";
 
         goToURL(offersPage);  // start at target page!!
 
@@ -31,10 +29,10 @@ public class CalendarElementTest extends BaseTest{
         calendarElementPage.clickCalendarHeader();
 
         // click on "2027" in calendar year picker
-        calendarElementPage.clickCalendarYear(year);
+        calendarElementPage.clickCalendarYear();
 
         // click "June" from calendar month picker
-        calendarElementPage.clickCalendarMonth(month);
+        calendarElementPage.clickCalendarMonth();
 
         // click "15" in calendar day picker
         calendarElementPage.clickCalendarDay(day);

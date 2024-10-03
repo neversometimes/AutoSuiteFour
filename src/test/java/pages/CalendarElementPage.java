@@ -34,13 +34,13 @@ public class CalendarElementPage {
     public void clickCalendarHeader() {
         calendarHeader.click();
     }
-    public void clickCalendarYear(String year) {
+    public void clickCalendarYear() {
         // click on "2027" in calendar year picker
-        driver.findElement(By.xpath("//button[normalize-space()='" + year + "']")).click();
+        driver.findElement(By.cssSelector("div[class*='year'] button:nth-child(7)")).click();
     }
-    public void clickCalendarMonth(String month) {
+    public void clickCalendarMonth() {
         // click "June" from calendar month picker
-        driver.findElement((By.xpath("//button[contains(.,'" + month + "')]"))).click();
+        driver.findElement(By.cssSelector("div[class*='months'] button:nth-child(6)")).click();
     }
     public void clickCalendarDay(String day) {
         // click "15" in calendar day picker
