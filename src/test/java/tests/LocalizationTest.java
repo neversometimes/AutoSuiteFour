@@ -4,7 +4,6 @@ import base.BaseTest;
 import org.testng.annotations.Test;
 import pages.LocalizationPage;
 
-import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -13,7 +12,6 @@ import static org.testng.Assert.*;
 public class LocalizationTest extends BaseTest {
 
     String mLangPage = "https://bonigarcia.dev/selenium-webdriver-java/multilanguage.html";
-    String webFormPage = "https://bonigarcia.dev/selenium-webdriver-java/web-form.html";
 
     // **** LOCAL TEST ONLY ****
     @Test
@@ -40,6 +38,5 @@ public class LocalizationTest extends BaseTest {
         assertTrue(bodyText.contains(contact));
 
     }
-
 
 }

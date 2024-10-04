@@ -5,10 +5,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-
 public class LocalizationPage {
 
     WebDriver driver;
@@ -22,13 +18,9 @@ public class LocalizationPage {
     @FindBy(tagName = "body")
     WebElement pageBody;
 
-
-
     //  ***********   PAGE METHODS   **************
     public String getBodyTxt() {
         return pageBody.getText();
     }
-
-
 
 }
