@@ -40,27 +40,6 @@ public class LocalizationTest extends BaseTest {
         assertTrue(bodyText.contains(contact));
 
     }
-    // **** LOCAL TEST ONLY ****
-    @Test
-    void upLoadTempFile() throws IOException {
-        LocalizationPage localizationPage = new LocalizationPage(driver);
-        goToURL(webFormPage);
-        String prefix = "xfiles"; String suffix = ".tmp";
-
-        // create temp file (prefix, suffix)
-        localizationPage.createTempFile(prefix, suffix);
-
-        // click submit on form control
-        localizationPage.submitSubmitBtn();
-
-        // verify submit form url, header and paragraph page text
-        assertNotSame(getPageURL(), webFormPage);   // current URL != webFormPage
-
-        assertEquals(localizationPage.getHeaderTxt(), "Form submitted"); // verify header text
-        assertEquals(localizationPage.getParagraphTxt(), "Received!");  // verify paragraph text
-
-
-    }
 
 
 }
