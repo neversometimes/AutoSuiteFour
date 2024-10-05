@@ -22,17 +22,15 @@ public class MouseActionsPage {
     }
 
     //  ***********  PAGE FACTORY DECLARATIONS  *************
-    @FindBy(xpath = "//a[text()='Navigation']")
-    WebElement navBtn;
-    @FindBy(xpath = "//a[text()='3']")
+    @FindBy(css = "nav li:nth-child(4)")
     WebElement threeBtn;
-    @FindBy(xpath = "//a[text()='2']")
+    @FindBy(css = "nav li:nth-child(3)")
     WebElement twoBtn;
-    @FindBy(xpath = "//a[text()='Next']")
+    @FindBy(css = "nav li:nth-child(5)")
     WebElement nextBtn;
-    @FindBy(xpath = "//a[text()='Previous']")
+    @FindBy(css = "nav li:nth-child(1)")
     WebElement prevBtn;
-    @FindBy(xpath = "//a[text()='1']")
+    @FindBy(css = "nav li:nth-child(2)")
     WebElement oneBtn;
     @FindBy(tagName = "body")
     WebElement bodyText;
@@ -101,9 +99,6 @@ public class MouseActionsPage {
     }
     public boolean isContextMenu3Displayed() {
         return contextMenu3.isDisplayed();
-    }
-    public void clickNavBtn() {
-        navBtn.click();
     }
     public void clickOneBtn() {
         oneBtn.click();

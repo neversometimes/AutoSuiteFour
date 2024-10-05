@@ -16,6 +16,7 @@ import static org.testng.Assert.*;
 
 
 public class MouseActionsTest extends BaseTest {
+    String navPage = "https://bonigarcia.dev/selenium-webdriver-java/navigation1.html";
     String webFormPage = "https://bonigarcia.dev/selenium-webdriver-java/web-form.html";
     String dropDownPage = "https://bonigarcia.dev/selenium-webdriver-java/dropdown-menu.html";
     String mouseOverPage = "https://bonigarcia.dev/selenium-webdriver-java/mouse-over.html";
@@ -25,10 +26,9 @@ public class MouseActionsTest extends BaseTest {
     @Test
     public void simpleWebNav(){
         MouseActionsPage mouseActionsPage = new MouseActionsPage(driver);
-        goToURL(initPage);
+        goToURL(navPage);
 
         //very basic web page navigation using xpath link text and CLICK()
-        mouseActionsPage.clickNavBtn();
         mouseActionsPage.clickThreeBtn();
         mouseActionsPage.clickTwoBtn();
         mouseActionsPage.clickNextBtn();
@@ -71,7 +71,7 @@ public class MouseActionsTest extends BaseTest {
     }
 
     @Test
-    public void testMouseOver() {
+    public void mouseOver() {
         MouseActionsPage mouseActionsPage = new MouseActionsPage(driver);
         goToURL(mouseOverPage);
 
@@ -116,7 +116,7 @@ public class MouseActionsTest extends BaseTest {
     }
 
     @Test
-    public void clickAndHoldToDraw() {
+    public void clickAndHoldToDrawCircle() {
         MouseActionsPage mouseActionsPage = new MouseActionsPage(driver);
 
         goToURL(canvasPage);
