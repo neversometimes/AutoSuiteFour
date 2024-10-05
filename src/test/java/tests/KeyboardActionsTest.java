@@ -11,7 +11,7 @@ public class KeyboardActionsTest extends BaseTest {
     String webFormPage = "https://bonigarcia.dev/selenium-webdriver-java/web-form.html";
 
     @Test
-    void sendKeys(){
+    public void sendKeys(){
         KeyboardActionsPage keyboardActionsPage = new KeyboardActionsPage(driver);
 
         String textValue = "Takin' It To The Street";
@@ -32,7 +32,7 @@ public class KeyboardActionsTest extends BaseTest {
     }
 
     @Test
-    void rangeSlider() {
+    public void rangeSlider() {
         KeyboardActionsPage keyboardActionsPage = new KeyboardActionsPage(driver);
         Keys keyRtArrow = Keys.ARROW_RIGHT;
         Keys keyLfArrow = Keys.ARROW_LEFT;
