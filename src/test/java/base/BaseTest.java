@@ -4,7 +4,6 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.devtools.DevTools;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -16,8 +15,8 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 
 import org.slf4j.Logger;
 
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.asserts.SoftAssert;
 
 import java.net.URISyntaxException;
@@ -34,22 +33,19 @@ import static org.slf4j.LoggerFactory.getLogger;
 public class BaseTest {
 
     public WebDriver driver;
-    public DevTools devTools;
+    //public DevTools devTools;
     SoftAssert sa = new SoftAssert();
     public String initPage = "https://bonigarcia.dev/selenium-webdriver-java/";
     public String lang = "es-ES";
     public static final Logger log = getLogger(lookup().lookupClass());
-    public ChromeOptions cOptions = new ChromeOptions();
-    public FirefoxOptions ffOptions = new FirefoxOptions();
-    public EdgeOptions eOptions = new EdgeOptions();
 
-    @BeforeTest
+    @BeforeMethod
     public WebDriver setUp() throws URISyntaxException {
         // path to web extension which sets background color of web pages to black
         Path extension = Paths.get(ClassLoader.getSystemResource("dark-bg.crx").toURI());
 
         // get target browser from CLI if given, otherwise use "chrome"
-        String browserName = System.getProperty("browser") != null ? System.getProperty("browser") : "chrome";
+        String browserName = System.getProperty("browser") != null ? System.getProperty("browser") : "edge";
 
         // set browser prefs for chrome/edge
         Map<String, Object> prefs = new HashMap<>();
@@ -60,7 +56,7 @@ public class BaseTest {
         logs.enable(LogType.BROWSER, Level.ALL);
 
         if (browserName.contains("chrome")) {
-
+            ChromeOptions cOptions = new ChromeOptions();
             if (browserName.contains("headless")){      // if headless param given on CLI
                 cOptions.addArguments("--headless");       // then run test in headless mode
             }
@@ -74,10 +70,8 @@ public class BaseTest {
 
             driver = new ChromeDriver(cOptions);
 
-            devTools = ((ChromeDriver) driver).getDevTools();
-            devTools.createSession();
         } else if (browserName.contains("firefox")) {
-
+            FirefoxOptions ffOptions = new FirefoxOptions();
             if (browserName.contains("headless")){      // if headless param given on CLI
                 ffOptions.addArguments ("-headless");      // then run test in headless mode
             }
@@ -85,7 +79,7 @@ public class BaseTest {
             driver = new FirefoxDriver(ffOptions);
 
         } else if (browserName.contains("edge")) {
-
+            EdgeOptions eOptions = new EdgeOptions();
             if (browserName.contains("headless")) {     // if headless param given on CLI
                 eOptions.addArguments("--headless");       // then run test in headless mode
             }
@@ -103,12 +97,10 @@ public class BaseTest {
         return driver;
     }
 
-    @AfterTest
+    @AfterMethod
     public void tearDown() {
-
         driver.quit();
     }
-
 
     public void goToURL(String url) {
         driver.get(url);

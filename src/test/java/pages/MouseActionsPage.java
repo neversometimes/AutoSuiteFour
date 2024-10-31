@@ -5,20 +5,16 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.locators.RelativeLocator;
-import org.openqa.selenium.support.ui.Wait;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
 public class MouseActionsPage {
 
     WebDriver driver;
-    Wait<WebDriver> wait;
 
     public MouseActionsPage (WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(5));
     }
 
     //  ***********  PAGE FACTORY DECLARATIONS  *************
@@ -68,6 +64,7 @@ public class MouseActionsPage {
         new Actions(driver)
                 .click(checkbx2)
                 .pause(Duration.ofSeconds(1))
+                .build()
                 .perform();
     }
     public boolean isRadio1Selected() {
@@ -77,6 +74,7 @@ public class MouseActionsPage {
         new Actions(driver)
                 .click(radio2)
                 .pause(Duration.ofSeconds(1))
+                .build()
                 .perform();
     }
     public boolean isRadio2Selected() {
@@ -192,6 +190,7 @@ public class MouseActionsPage {
                 .pause(Duration.ofSeconds(3))
                 .sendKeys(textArea, "v")
                 .pause(Duration.ofSeconds(3))
+                .build()
                 .perform();
 
     }

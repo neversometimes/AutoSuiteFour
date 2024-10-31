@@ -2,6 +2,8 @@ package pages;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.devtools.DevTools;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -40,5 +42,8 @@ public class GeolocPage {
     public String getLongitude() {
         String[] arr = coordList.getAttribute("innerText").split("\n");
         return arr[1];
+    }
+    public DevTools getDevTools() {
+        return ((ChromeDriver) driver).getDevTools();
     }
 }

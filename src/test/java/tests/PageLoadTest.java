@@ -3,6 +3,9 @@ package tests;
 import base.BaseTest;
 
 import org.openqa.selenium.PageLoadStrategy;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeOptions;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.testng.annotations.Test;
 import static org.testng.Assert.*;
 import java.time.Duration;
@@ -12,6 +15,10 @@ public class PageLoadTest extends BaseTest {
     //  .NORMAL : default mode.  WebDriver waits until entire page is loaded.
     //  .EAGER : WebDriver waits until HTML doc has finished loading/parsing (sub resources still loading).
     //  .NONE : WebDriver waits only until HTML doc is downloaded.
+
+    ChromeOptions cOptions = new ChromeOptions();
+    FirefoxOptions ffOptions = new FirefoxOptions();
+    EdgeOptions eOptions = new EdgeOptions();
 
     @Test
     public void pageLoadTime() {

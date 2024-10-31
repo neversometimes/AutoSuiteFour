@@ -1,6 +1,8 @@
 package tests;
 
 import base.BaseTest;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.devtools.DevTools;
 import org.openqa.selenium.devtools.v85.emulation.Emulation;
 import pages.GeolocPage;
 
@@ -14,11 +16,15 @@ public class GeolocTest extends BaseTest {
 
     String geoPage = "https://bonigarcia.dev/selenium-webdriver-java/geolocation.html";
 
+    DevTools devTools;
 
     // ****  NOTE:  this test is CHROME-ONLY based on its dependency of chrome options  ****
-    @Test (groups = {"chrome-only"})  //??
+    @Test (groups = {"chrome-only"})  //will not work with FF or Edge
     public void overrideGeoLoc() {
         GeolocPage geolocationPage = new GeolocPage(driver);
+
+        devTools = geolocationPage.getDevTools();
+        devTools.createSession();
 
         goToURL(geoPage);
 

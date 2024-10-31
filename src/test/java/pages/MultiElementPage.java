@@ -34,7 +34,7 @@ public class MultiElementPage {
         option3chkbox.click();
     }
     public String getOption3ChkboxLabel() {
-        System.out.println(option3Label.getText());
+        //System.out.println(option3Label.getText());
         return option3Label.getText();
     }
     public void selectDropDownOfChckboxLabel() {
