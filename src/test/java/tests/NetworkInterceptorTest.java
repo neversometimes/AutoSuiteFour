@@ -13,7 +13,7 @@ import java.nio.file.Path;
 
 public class NetworkInterceptorTest extends BaseTest {
 
-    @Test (groups = {"chrome-only"})        // test uses CDP wrapper class
+    @Test (groups = {"notFF"})        // test uses CDP wrapper class
     void networkInterceptor() throws Exception {
         NetworkInterceptorPage networkInterceptorPage = new NetworkInterceptorPage(driver);
         String testPNG = "tools.png"; //found under src/test/resources) : 80x80 PNG file

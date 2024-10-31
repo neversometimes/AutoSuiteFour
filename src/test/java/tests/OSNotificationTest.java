@@ -9,7 +9,7 @@ import static org.testng.Assert.*;
 public class OSNotificationTest extends BaseTest {
     String notifyPage = "https://bonigarcia.dev/selenium-webdriver-java/notifications.html";
 
-    @Test (groups={"chrome-only"})
+    @Test (groups={"notFF"})
     public void OSNotify(){
         OSNotificationPage osNotify = new OSNotificationPage(driver);
         goToURL(notifyPage);

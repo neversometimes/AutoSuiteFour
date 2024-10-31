@@ -17,7 +17,7 @@ import java.util.concurrent.atomic.AtomicReference;
 public class LocalWebDriverBiDiTest extends BaseTest {
     String consoleLogsPage = "https://bonigarcia.dev/selenium-webdriver-java/console-logs.html";
 
-    @Test (groups={"chrome-only"})
+    @Test (groups={"notFF"})
     public void domMutationEvent() throws InterruptedException {
         LocalWebDriverBiDiPage localWebDriverBiDiPage = new LocalWebDriverBiDiPage(driver);
         CountDownLatch latch = new CountDownLatch(1);  // expects 1 event to be captured
@@ -39,7 +39,7 @@ public class LocalWebDriverBiDiTest extends BaseTest {
         assertTrue(seen.get().getElement().getAttribute("src").endsWith(newSrc));
     }
 
-    @Test (groups = {"chrome-only"})
+    @Test (groups = {"notFF"})
     public void consoleEvent() throws InterruptedException {
         LocalWebDriverBiDiPage localWebDriverBiDiPage = new LocalWebDriverBiDiPage(driver);
         CountDownLatch latch = new CountDownLatch(4);

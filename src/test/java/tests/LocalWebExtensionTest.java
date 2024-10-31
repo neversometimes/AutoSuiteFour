@@ -8,7 +8,7 @@ import static org.testng.Assert.*;
 
 public class LocalWebExtensionTest extends BaseTest {
 
-    @Test(groups = {"chrome-only"})
+    @Test(groups = {"notFF"})
     void webExtension() {
         LocalWebExtensionPage localWebExtensionPage = new LocalWebExtensionPage(driver);
         goToURL(initPage);

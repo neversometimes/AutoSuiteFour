@@ -11,7 +11,7 @@ import static org.testng.Assert.*;
 public class WebAuthTest extends BaseTest {
     String webAuthenticationPage = "https://webauthn.io";
 
-    @Test (groups = {"chrome-only"})
+    @Test (groups = {"notFF"})
     public void basicWebAuthn() {
         // go to site protected with Web Auth API
         goToURL(webAuthenticationPage);

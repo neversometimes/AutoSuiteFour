@@ -8,7 +8,7 @@ import pages.GetUserMediaPage;
 public class GetUserMediaTest extends BaseTest {
     String userMediaPage = "https://bonigarcia.dev/selenium-webdriver-java/get-user-media.html";
 
-    @Test (groups = {"chrome-only"})
+    @Test (groups = {"notFF"})
     public void useFakeMedia() throws InterruptedException{
         GetUserMediaPage getUserMediaPage = new GetUserMediaPage(driver);
 
